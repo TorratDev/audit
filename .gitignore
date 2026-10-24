@@ -1,0 +1,7 @@
+# Datos descargados y resultados de la spike: van a Releases, no al repo
+/spike/**/*.csv
+/spike/**/*.zip
+/spike/**/*.xlsx
+/spike/**/*.atom
+/spike/**/*.accdb
+/spike/**/dl/

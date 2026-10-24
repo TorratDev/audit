@@ -16,8 +16,6 @@ concurrency:
 
 jobs:
   update:
-    # Evita bucles: el propio panel también es un issue.
-    if: github.event_name != 'issues' || github.event.issue.number != 26
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

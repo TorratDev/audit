@@ -25,7 +25,8 @@ while IFS=$'\t' read -r num state title done all; do
   total_done=$(( total_done + done )) total_all=$(( total_all + all ))
   icon=$([[ $state == closed ]] && echo "✅" || echo "🟡")
   ((done == 0)) && [[ $state == open ]] && icon="⚪"
-  table+="| $icon #$num ${title#Épica · } | $(bar "$pct") | $done / $all |"$'\n'
+  pipe='|'; safe=${title//"$pipe"/'\|'}
+  table+="| $icon #$num ${safe#Épica · } | $(bar "$pct") | $done / $all |"$'\n'
 
   rows=$(gh api "repos/$REPO/issues/$num/sub_issues?per_page=100" \
     --jq '.[] | "- " + (if .state == "closed" then "✅" elif .issue_dependencies_summary.blocked_by > 0 then "🔒" else "⬜" end) + " #\(.number)"')
