@@ -1,0 +1,29 @@
+name: Progreso de épicas
+
+on:
+  issues:
+    types: [opened, closed, reopened, edited, labeled, unlabeled, deleted]
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+concurrency:
+  group: epic-progress
+  cancel-in-progress: true
+
+jobs:
+  update:
+    # Evita bucles: el propio panel también es un issue.
+    if: github.event_name != 'issues' || github.event.issue.number != 26
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerar panel
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          DASHBOARD_ISSUE: "26"
+        run: .github/scripts/epic-progress.sh
